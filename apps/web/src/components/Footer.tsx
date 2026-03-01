@@ -43,6 +43,7 @@ export function Footer() {
             >
               Tribal Enterprise SARL
             </a>
+            . Tous droits reserves.
           </p>
         </div>
       </div>
