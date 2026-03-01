@@ -1,0 +1,145 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'Outfit', sans-serif;
+
+  --color-tribal-accent: #14B8A6;
+  --color-tribal-accent-light: #2DD4BF;
+  --color-tribal-accent-dark: #0D9488;
+  --color-tribal-black: #050505;
+  --color-tribal-dark: #0C0C0C;
+  --color-tribal-gray: #161616;
+  --color-tribal-muted: #6B7280;
+
+  --animate-fade-up: fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-fade-in: fade-in 0.6s ease-out forwards;
+  --animate-scale-up: scale-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-float-slow: float 8s ease-in-out infinite;
+  --animate-glow-pulse: glow-pulse 4s ease-in-out infinite;
+  --animate-marquee: marquee 40s linear infinite;
+  --animate-spin-slow: spin 20s linear infinite;
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(50px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scale-up {
+  from { opacity: 0; transform: scale(0.92); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  33% { transform: translateY(-12px) rotate(1deg); }
+  66% { transform: translateY(6px) rotate(-1deg); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ---- Base ---- */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-tribal-black);
+  color: #F0F0F0;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: rgba(20, 184, 166, 0.25);
+  color: white;
+}
+
+/* ---- Scrollbar ---- */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(20, 184, 166, 0.4);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(20, 184, 166, 0.6); }
+
+/* ---- Grain Overlay ---- */
+.grain::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  opacity: 0.025;
+  pointer-events: none;
+  z-index: 9999;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px;
+}
+
+/* ---- Hero stroke text ---- */
+.text-stroke {
+  -webkit-text-stroke: 1.5px rgba(20, 184, 166, 0.5);
+  -webkit-text-fill-color: transparent;
+}
+@media (min-width: 768px) {
+  .text-stroke { -webkit-text-stroke: 2.5px rgba(20, 184, 166, 0.5); }
+}
+
+/* ---- Glass Card ---- */
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.glass-hover {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.glass-hover:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(20, 184, 166, 0.15);
+  transform: translateY(-6px);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.4),
+    0 0 40px rgba(20, 184, 166, 0.06);
+}
+
+/* ---- Dividers ---- */
+.divider-glow {
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(20, 184, 166, 0.25) 50%, transparent 100%);
+}
+
+/* ---- Background Mesh ---- */
+.mesh-gradient {
+  background-image:
+    radial-gradient(at 20% 20%, rgba(20, 184, 166, 0.06) 0%, transparent 50%),
+    radial-gradient(at 80% 80%, rgba(20, 184, 166, 0.03) 0%, transparent 50%),
+    radial-gradient(at 50% 50%, rgba(139, 92, 246, 0.02) 0%, transparent 50%);
+}
+
+/* ---- Kente-inspired geometric lines ---- */
+.kente-lines {
+  background-image:
+    repeating-linear-gradient(60deg, transparent, transparent 40px, rgba(20, 184, 166, 0.015) 40px, rgba(20, 184, 166, 0.015) 41px),
+    repeating-linear-gradient(-60deg, transparent, transparent 40px, rgba(20, 184, 166, 0.015) 40px, rgba(20, 184, 166, 0.015) 41px);
+}
