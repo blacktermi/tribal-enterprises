@@ -14,9 +14,17 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
+      '@tribal/design-system': path.resolve(__dirname, 'src/lib/design-system.ts'),
     },
   },
   server: {
     port: 5181,
+    proxy: {
+      '/api': {
+        target: 'https://tribalprint.ci',
+        changeOrigin: true,
+        secure: true,
+      },
+    },
   },
 })

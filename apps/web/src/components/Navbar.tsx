@@ -1,21 +1,33 @@
 import { useState, useEffect } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 
 const links = [
-  { label: 'Accueil', href: '#accueil' },
-  { label: 'Vision', href: '#vision' },
-  { label: 'Marques', href: '#marques' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Accueil', href: '/#accueil' },
+  { label: 'Vision', href: '/#vision' },
+  { label: 'Marques', href: '/#marques' },
+  { label: 'Produits', href: '/produits', route: true },
+  { label: 'Contact', href: '/#contact' },
 ]
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
+  const location = useLocation()
+  const isHome = location.pathname === '/'
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60)
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
+
+  const handleAnchorClick = (href: string) => {
+    setOpen(false)
+    if (isHome && href.startsWith('/#')) {
+      const el = document.querySelector(href.replace('/', ''))
+      if (el) el.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
 
   return (
     <nav
@@ -28,7 +40,7 @@ export function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-8 flex items-center justify-between">
         {/* Logo */}
-        <a href="#accueil" className="group" aria-label="Tribal Enterprise — Accueil">
+        <Link to="/" className="group" aria-label="Tribal Enterprise — Accueil">
           <img
             src="/logo.png"
             alt="Logo Tribal Enterprise"
@@ -36,25 +48,37 @@ export function Navbar() {
             height={36}
             className="w-9 h-9 object-contain transition-transform duration-300 group-hover:scale-110 drop-shadow-[0_0_8px_rgba(20,184,166,0.3)]"
           />
-        </a>
+        </Link>
 
         {/* Desktop links */}
         <div className="hidden md:flex items-center gap-1">
-          {links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="relative px-4 py-2 text-[13px] font-medium text-white/50 hover:text-white transition-colors duration-300 tracking-widest uppercase group"
-            >
-              {l.label}
-              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-px bg-tribal-accent transition-all duration-300 group-hover:w-4/5" />
-            </a>
-          ))}
+          {links.map((l) =>
+            l.route ? (
+              <Link
+                key={l.href}
+                to={l.href}
+                className="relative px-4 py-2 text-[13px] font-medium text-white/50 hover:text-white transition-colors duration-300 tracking-widest uppercase group"
+              >
+                {l.label}
+                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-px bg-tribal-accent transition-all duration-300 group-hover:w-4/5" />
+              </Link>
+            ) : (
+              <a
+                key={l.href}
+                href={isHome ? l.href.replace('/', '') : l.href}
+                onClick={() => handleAnchorClick(l.href)}
+                className="relative px-4 py-2 text-[13px] font-medium text-white/50 hover:text-white transition-colors duration-300 tracking-widest uppercase group"
+              >
+                {l.label}
+                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-px bg-tribal-accent transition-all duration-300 group-hover:w-4/5" />
+              </a>
+            )
+          )}
         </div>
 
         {/* CTA */}
         <a
-          href="#contact"
+          href={isHome ? '#contact' : '/#contact'}
           className="hidden md:inline-flex items-center gap-2 px-5 py-2 text-[13px] font-semibold rounded-xl bg-white/[0.06] border border-white/[0.08] text-white hover:bg-tribal-accent hover:text-tribal-black hover:border-tribal-accent transition-all duration-400 backdrop-blur-sm"
         >
           Nous Contacter
@@ -79,18 +103,29 @@ export function Navbar() {
         }`}
       >
         <div className="px-6 pt-4 pb-6 bg-tribal-black/90 backdrop-blur-2xl border-t border-white/[0.04] space-y-1">
-          {links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              onClick={() => setOpen(false)}
-              className="block py-3 text-sm font-medium text-white/50 hover:text-tribal-accent transition-colors tracking-widest uppercase"
-            >
-              {l.label}
-            </a>
-          ))}
+          {links.map((l) =>
+            l.route ? (
+              <Link
+                key={l.href}
+                to={l.href}
+                onClick={() => setOpen(false)}
+                className="block py-3 text-sm font-medium text-white/50 hover:text-tribal-accent transition-colors tracking-widest uppercase"
+              >
+                {l.label}
+              </Link>
+            ) : (
+              <a
+                key={l.href}
+                href={isHome ? l.href.replace('/', '') : l.href}
+                onClick={() => handleAnchorClick(l.href)}
+                className="block py-3 text-sm font-medium text-white/50 hover:text-tribal-accent transition-colors tracking-widest uppercase"
+              >
+                {l.label}
+              </a>
+            )
+          )}
           <a
-            href="#contact"
+            href={isHome ? '#contact' : '/#contact'}
             onClick={() => setOpen(false)}
             className="block mt-4 text-center py-3 rounded-xl bg-tribal-accent text-tribal-black font-semibold text-sm"
           >

@@ -6,7 +6,8 @@
     "outDir": "./dist",
     "composite": false,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@tribal/design-system": ["./src/lib/design-system.ts"]
     }
   },
   "include": ["src"],
